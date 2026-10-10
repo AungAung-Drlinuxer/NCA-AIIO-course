@@ -4,7 +4,19 @@
 
 ---
 
-## 1. Course တစ်ခုလုံး ပြန်လည် သုံးသပ်ခြင်း — 30 မိနစ် Review
+## 1. ပြဿနာ — ဖတ်ပြီးသမျှကို စာမေးပွဲမှာ ဘယ်လို ပြန်ထုတ်မလဲ
+
+Module 00–12 ကို ဖတ်ပြီးသော်လည်း စာမေးပွဲတွင် ကြုံရနိုင်သည့် ပြဿနာ ၃ ရပ် ရှိပါသည် —
+
+1. **အချက်များ များပြားခြင်း** — domain ၃ ခု၊ objective ဆယ်ချီ — ပြန်ဖတ်ရန် အချိန် မလုံလောက်
+2. **Trap များ** — လွယ်ကူစွာ မှားတတ်သော စကားလုံးများ (EXCEPT, best, most) — အမှန်ကို သိသော်လည်း မှားဖြေမိခြင်း
+3. **ကိုယ့်အဆင့် မသိခြင်း** — အားနည်းသော domain ကို မသိဘဲ ဖြေဆိုမိခြင်း
+
+ဤ module သည် ပြဿနာ ၃ ရပ်လုံးကို ဖြေရှင်းပေးပါမည် — 30 မိနစ် review (အချက်များ ပြန်ဆန်းစစ်)၊ Top-10 traps (မှားတတ်သော အချက်များ ကြိုတင်ရှောင်)၊ 25 မေးခွန်း practice exam (ကိုယ့်အဆင့် တိုင်းတာ)။
+
+---
+
+## 2. Course တစ်ခုလုံး ပြန်လည် သုံးသပ်ခြင်း — 30 မိနစ် Review
 
 ### Domain 1 — Essential AI Knowledge (38%)
 - **AI ⊃ ML ⊃ DL** — DL သည် neural network အလွှာ များများဖြင့် ML ၏ အမျိုးအစားခွဲ
@@ -36,7 +48,7 @@
 
 ---
 
-## 2. Top-10 Exam Traps — ဖြေဆိုမီ ဖတ်ပါ
+## 3. Top-10 Exam Traps — ဖြေဆိုမီ ဖတ်ပါ
 
 | # | လွယ်ကူစွာ မှားတတ်သော အချက် | မှန်ကန်သော အဖြေ |
 |---|---|---|
@@ -53,7 +65,7 @@
 
 ---
 
-## 3. Practice Exam — 25 မေးခွန်း
+## 4. Practice Exam — 25 မေးခွန်း
 
 ### Domain 1 (Q1-10)
 1. "GPU က CPU ထက် မြန်" မှားရခြင်း အကြောင်းရင်း?
@@ -88,7 +100,7 @@
 
 ---
 
-## 4. Answer Key + ရှင်းလင်းချက်
+## 5. Answer Key + ရှင်းလင်းချက်
 
 | Q | အဖြေ | ရှင်းလင်းချက် |
 |---|---|---|
@@ -120,7 +132,7 @@
 
 ---
 
-## 5. Scoring Guide
+## 6. Scoring Guide
 
 - **22+/25 (88%+)** — အဆင်သင့် — ချက်ချင်း မှတ်ပုံတင် ဖြေဆိုနိုင်
 - **18-21 (72-84%)** — နီးစပ် — weak domain ပြန်ဖတ်ပြီး ၁ ပတ်အကြာ ပြန်ဖြေ
@@ -130,7 +142,7 @@
 
 ---
 
-## 6. Exam-Day Checklist
+## 7. Exam-Day Checklist
 
 1. **Proctor ပတ်ဝန်းကျင်** — တိတ်ဆိတ်သော အခန်း၊ ရှင်းလင်းသော စားပွဲ၊ government ID အသင့်
 2. **24 နာရီ ကြိုတင်** — Certiverse software/platform test လုပ်ထားပါ
@@ -141,7 +153,7 @@
 
 ---
 
-## 7. ဆက်လက် လေ့လာစရာ
+## 8. ဆက်လက် လေ့လာစရာ
 
 - **NCP-AII (Professional: AI Infrastructure)** — cluster deploy/configure (70-75Q, 120min, $400)
 - **NCP-AIO (Professional: AI Operations)** — monitoring/troubleshooting
@@ -150,7 +162,25 @@
 
 ---
 
-## 8. Official References
+## 9. Self-check
+
+1. GPU က CPU ထက် မြန်သည် ဆိုသော အဆို ဘာကြောင့် မှားသလဲ။
+2. NVLink သည် scale-up လား scale-out လား၊ node အတွင်းလား ကြားလား။
+3. PUE = 1.5 ဆိုပါက IT load ထက် non-IT ကုန်ကျစရိတ် မည်မျှ ပိုသလဲ။
+4. Cluster အဆင့် GPU monitoring အတွက် မည်သည့် tool နှင့် pipeline ၃ ဆင့် သုံးသလဲ။
+5. Hardware-isolated GPU instance ၇ ခု ခွဲဝေလိုပါက မည်သည့် virtualization နည်းလမ်း ရွေးမလဲ။
+
+**အဖြေများ**
+
+1. Sequential workload တွင် CPU ပိုမြန်ပြီး GPU ၏ အားသာချက်က parallel matrix workload တွင်သာ ဖြစ်သောကြောင့်
+2. Scale-up — node အတွင်း GPU ချိတ်ဆက်မှု (cluster fabric မဟုတ်)
+3. IT load ၏ 1/3 (non-IT = 0.5×IT) ပိုကုန်ပါသည်
+4. DCGM — DCGM Exporter → Prometheus → Grafana
+5. MIG — hardware partition (instance အမြင့်ဆုံး 7)
+
+---
+
+## 10. Official References
 
 - NCA-AIIO Exam Guide: https://www.nvidia.com/en-us/learning/certifications/associate-ai-inf-ops/
 - Certiverse: https://certiverse.nvidia.com
@@ -159,3 +189,12 @@
 - NCP-AIO: https://www.nvidia.com/en-us/learning/certifications/professional-ai-operations/
 
 **Course ပြီးပါပြီ — စာမေးပွဲ အောင်မြင်ပါစေ!**
+
+---
+
+## Technical review notes
+
+- **DGX B200 = 14.3kW** သည် NVIDIA DGX B200 documentation (system max power) နှင့် ကိုက်ညီကြောင်း အတည်ပြုပြီးဖြစ်ပါသည်။
+- **GB200 NVL72 ~120kW** သည် ခန့်မှန်း ပမာဏဖြစ်ပြီး rack config ပေါ် မူတည်၍ ကွဲပြားနိုင်ပါသည် (needs verification)။
+- စာမေးပွဲ ဆိုင်ရာ ဂဏန်းများ — **70% pass mark**, **72 စက္ကန့်/မေးခွန်း**, **NCP-AII 70-75Q / 120min / $400** — သည် ပြောင်းလဲနိုင်သောကြောင့် ဖြေဆိုမီ NVIDIA Exam Guide တွင် ထပ်မံ အတည်ပြုပါ (needs verification)။
+- Q3 အဖြေ (~84-112GB) သည် 7B param × 12-16 bytes/param အတိုင်း ခန့်မှန်းချက် ဖြစ်ပြီး optimizer/framework အလိုက် ပြောင်းလဲနိုင်ပါသည် (needs verification)။

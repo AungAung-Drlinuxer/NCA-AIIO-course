@@ -4,11 +4,11 @@
 
 ---
 
-## 1. ဘာကြောင့် GPU မျှဝေ လိုအပ်သလဲ (Objective 3.4)
+## 1. ပြဿနာ — GPU တစ်လုံးလုံးကို user တစ်ယောက်တည်း ဘာကြောင့် မပေးနိုင်တာလဲ (Objective 3.4)
 
-Data center GPU တစ်လုံး၏ တန်ဖိုးသည် ဒေါ်လာ ၃ သောင်းကျော် ရှိပြီး အချို့ workload များသည် GPU တစ်လုံးလုံး မလိုအပ်ပါ။ ထို့ကြောင့် GPU တစ်ခုကို workload/user အမျိုးမျိုးအကြား မျှဝေ အသုံးပြုနည်း ၃ မျိုး ရှိပါသည်။
+Data center GPU တစ်လုံး၏ တန်ဖိုးသည် ဒေါ်လာ ၃ သောင်းကျော် ရှိပြီး အချို့ workload များသည် GPU တစ်လုံးလုံး မလိုအပ်ပါ။ ဥပမာ — inference service ငယ်တစ်ခုသည် GPU အင်အား ၁၀% သာ သုံးပြီး developer တစ်ဦး၏ dev/test workload က အခြားတစ်ဦးနှင့် ရောမွှေမိပါက စွမ်းဆောင်ရည် မတည်ငြိမ်ပါ။ ထို့ကြောင့် GPU တစ်ခုကို workload/user အမျိုးမျိုးအကြား မျှဝေ အသုံးပြုနည်း ၃ မျိုး — **Time-slicing, MIG, vGPU** — ကို isolation အဆင့်အလိုက် ခွဲခြား နားလည်ရန် လိုအပ်ပါသည်။
 
-## 2. Access Model ၃ မျိုး (အခြေခံ)
+## 2. Core Concept — Access Model ၃ မျိုး (အခြေခံ)
 
 1. **Bare metal** — စက်တစ်လုံးလုံး တစ်ဦးတည်း — performance အပြည့်အဝ
 2. **Virtual Machine (hypervisor)** — VM အများ တစ်ခုတည်းသော hardware ပေါ် — strong isolation
@@ -16,7 +16,7 @@ Data center GPU တစ်လုံး၏ တန်ဖိုးသည် ဒေ�
 
 ---
 
-## 3. GPU Sharing / Partitioning နည်းလမ်း ၃ မျိုး ⭐
+## 3. Core Concept — GPU Sharing / Partitioning နည်းလမ်း ၃ မျိုး ⭐
 
 ### ① Time-slicing
 
@@ -54,7 +54,7 @@ Hypervisor ဖြင့် mediated sharing — license လိုအပ်ပြ
 
 ---
 
-## 4. ၃ မျိုး နှိုင်းယှဉ်ချက် ⭐
+## 4. နှိုင်းယှဉ်ချက် — ၃ မျိုး ⭐
 
 | အချက် | Time-slicing | MIG | vGPU |
 |---|---|---|---|
@@ -71,22 +71,31 @@ Hypervisor ဖြင့် mediated sharing — license လိုအပ်ပြ
 
 ## 5. MIG Profile များ အသေးစိတ်
 
-H100 80GB ကို ဥပမာ ယူပါက —
+H100 80GB ကို ဥပမာ ယူပါက (NVIDIA MIG User Guide အတိုင်း) —
 
 | Profile | Memory | ရရှိနိုင်မှု |
 |---|---|---|
-| 1g.10gb | 10GB | 8 instances |
-| 2g.20gb | 20GB | 4 instances |
+| 1g.10gb | 10GB | 7 instances |
+| 2g.20gb | 20GB | 3 instances |
 | 3g.40gb | 40GB | 2 instances |
 | 7g.80gb | 80GB | 1 instance (full) |
 
-⚠️ အမြင့်ဆုံး instance အရေအတွက်ကို "7" အဖြစ် မှတ်သားထားပါ — ဤဂဏန်းကို စာမေးပွဲတွင် တိုက်ရိုက် မေးလေ့ရှိပါသည်။
+⚠️ အမြင့်ဆုံး instance အရေအတွက်ကို "7" အဖြစ် မှတ်သားထားပါ — ဤဂဏန်းကို စာမေးပွဲတွင် တိုက်ရိုက် မေးလေ့ရှိပါသည်။ profile တစ်ခုချင်းစီ၏ instance အရေအတွက်သည် memory/SM slice ခွဲဝေပုံပေါ် မူတည်၍ ပြောင်းလဲနိုင်ပြီး GPU model အလိုက်လည်း မတူနိုင်ပါ။
 
 ---
 
-## 6. Kubernetes နှင့် ပေါင်းစပ်ခြင်း
+## 6. လက်တွေ့ Configuration — MIG ဖွင့်ခြင်းနှင့် Kubernetes ပေါင်းစပ်ခြင်း
 
-MIG instance များကို Kubernetes device plugin ဖြင့် resource အဖြစ် ဖြန့်ဝေနိုင်ပါသည် —
+MIG instance များကို ဖန်တီးရန် အောက်ပါ အဆင့်များ အသုံးပြုပါသည် (illustrative — driver version ပေါ် မူတည်) —
+
+```bash
+sudo nvidia-smi -i 0 -mig 1        # GPU 0 အတွက် MIG mode ဖွင့်ခြင်း
+nvidia-smi mig -lgip               # ရရှိနိုင်သော GPU instance profile များ စာရင်း ကြည့်ခြင်း
+sudo nvidia-smi mig -cgi 9,9 -C    # profile ID ဖြင့် instance ၂ ခု ဖန်တီးပြီး compute instance ချိတ်ပေးခြင်း
+nvidia-smi -L                      # ဖန်တီးပြီး MIG device များ စစ်ဆေးခြင်း
+```
+
+Kubernetes နှင့် ပေါင်းစပ်ရာတွင် MIG instance များကို device plugin ဖြင့် resource အဖြစ် ဖြန့်ဝေနိုင်ပါသည် —
 - MIG strategy: `single` (GPU တစ်လုံး = instance တစ်ခု) သို့မဟုတ် `mixed` (profile အမျိုးမျိုး ရောနှော)
 - pod တစ်ခုက MIG profile တစ်ခု တောင်းဆိုခြင်း
 
@@ -107,7 +116,13 @@ MIG instance များကို Kubernetes device plugin ဖြင့် reso
 
 ---
 
-## 8. အဓိက မှားယွင်းနိုင်သော အချက်များ
+## 8. လည်ပတ်မှု သတိပေးချက်များနှင့် စာမေးပွဲ Trap များ
+
+- Time-slicing တွင် memory မခွဲသောကြောင့် workload တစ်ခု OOM ဖြစ်ပါက အခြား workload များပါ ထိခိုက်နိုင် — production multi-tenant အတွက် မသင့်ပါ
+- MIG instance များကို ဖန်တီး/ဖျက်ပါက running workload များ ရပ်တန့်နိုင်သဖြင့် ပြောင်းလဲမှုကို change window အတွင်း ပြုလုပ်ပါ
+- vGPU သည် license မပါဘဲ အလုပ်မလုပ်ပါ — deployment မတိုင်မီ license စီစဉ်ထားရန် လိုအပ်ပါသည်
+
+### အဓိက မှားယွင်းနိုင်သော အချက်များ
 
 1. MIG = hardware partition / vGPU = mediated / time-slicing = time-share
 2. MIG instance အမြင့်ဆုံး = 7
@@ -117,13 +132,21 @@ MIG instance များကို Kubernetes device plugin ဖြင့် reso
 
 ---
 
-## 9. Mini-Quiz
+## 9. Self-check
 
 1. Time-slicing, MIG, vGPU ကို isolation ရှုထောင့်မှ နှိုင်းယှဉ်ပါ။
 2. Hardware-isolated instance ၇ ခု ခွဲဝေလိုပါက မည်သည့်နည်း သုံးမလဲ။
 3. MIG ကို GeForce GPU တွင် အသုံးပြုနိုင်/မနိုင် ရှင်းပြပါ။
+4. Time-slicing တွင် workload တစ်ခု crash ပါက အခြား workload များ ဘာကြောင့် ထိခိုက်နိုင်သလဲ။
+5. VDI အတွက် မည်သည့်နည်း အသင့်တော်ဆုံးလဲ၊ ဘာကြောင့်လဲ။
 
-**အဖြေများ** — 1) Time-slicing = isolation မရှိ၊ MIG = hardware-level အပြည့်အဝ၊ vGPU = hypervisor-level · 2) **MIG** · 3) မနိုင် — Ampere+ data center GPU feature
+**အဖြေများ**
+
+1. Time-slicing = isolation မရှိ၊ MIG = hardware-level အပြည့်အဝ၊ vGPU = hypervisor-level
+2. **MIG**
+3. မနိုင် — Ampere+ data center GPU feature
+4. memory သီးခြား မခွဲထားသောကြောင့် — memory isolation မရှိပါ
+5. vGPU (GRID) — desktop profile နှင့် management feature ပါဝင်သောကြောင့်
 
 ---
 
@@ -133,3 +156,11 @@ MIG instance များကို Kubernetes device plugin ဖြင့် reso
 - NVIDIA vGPU: https://www.nvidia.com/en-us/enterprise/virtual-gpu-technology/
 - Multi-Instance GPU (MIG): https://www.nvidia.com/en-us/technologies/multi-instance-gpu/
 - GPU Operator MIG strategies: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/
+
+---
+
+## Technical review notes
+
+- မူလ MIG profile ဇယားတွင် 1g.10gb = 8 instances၊ 2g.20gb = 4 instances ဟု ပါရှိခဲ့သော်လည်း NVIDIA MIG User Guide (Supported MIG Profiles) အရ H100 80GB တွင် 1g.10gb = 7 instances၊ 2g.20gb = 3 instances ဖြစ်သဖြင့် မှန်ကန်သော ဂဏန်းများဖြင့် ပြင်ဆင်ထားပါသည်။
+- Section 6 ၏ `nvidia-smi mig` command များသည် illustrative ဖြစ်ပြီး profile ID များ (ဥပမာ `9`) သည် GPU model နှင့် driver version ပေါ် မူတည်၍ မတူနိုင်ပါ (needs verification)။
+- "DGX/GeForce တွင် မရ" စသည့် hardware ကန့်သတ်ချက်များသည် GPU generation အသစ်များတွင် ပြောင်းလဲနိုင်ပြီး စာမေးပွဲအတွက် မူလ အဓိပ္ပာယ်အတိုင်း မှတ်သားပါ (needs verification)။

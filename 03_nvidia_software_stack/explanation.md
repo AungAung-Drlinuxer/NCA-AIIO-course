@@ -4,7 +4,18 @@
 
 ---
 
-## 1. Stack ကို Layer အလိုက် နားလည်ခြင်း
+## 1. ပြဿနာ — NVIDIA software အမည်များ ဘာကြောင့် ရှုပ်ရသလဲ
+
+NVIDIA ၏ software စာရင်းတွင် CUDA, cuDNN, NCCL, TensorRT, Triton, NIM, NeMo, RAPIDS, NGC, Base Command စသည်ဖြင့် အမည် ဆင်တူသော tool များ များပြားပါသည်။ တစ်ခုနှင့်တစ်ခု ရောထွေးပါက —
+
+- မေးခွန်းတွင် "model ကို optimize လုပ်ချင်" နှင့် "model ကို serve လုပ်ချင်" ကို မခွဲခြားနိုင်ဘဲ အဖြေ မှားတတ်ပါသည်
+- infrastructure စီမံကိန်းတွင် ဘယ် layer အတွက် ဘယ် tool ဝယ်/တပ်ဆင်ရမည်ကို မဆုံးဖြတ်နိုင်ပါ
+
+ဤ module သည် stack တစ်ခုလုံးကို layer အလိုက် စဉ်းစားတတ်စေရန် ရည်ရွယ်ပါသည် — အောက်ခြေ hardware မှ အပေါ်ဆုံး application အထိ တစ်ဆင့်ချင်း တက်ကြည့်ပါမည်။
+
+---
+
+## 2. အဓိက သဘောတရား — Stack ကို Layer အလိုက် နားလည်ခြင်း
 
 ```
 ┌───────────────────────────────────────────────────┐
@@ -26,17 +37,21 @@
 ![CUDA programming model](../images/cuda-programming-model.jpg)
 *ပုံ — CUDA programming model (ရင်းမြစ်: NVIDIA Developer Blog)*
 
+အပေါ်ဆုံး layer မှ စတင် မရှင်းပြပါနှင့် — အောက်ခြေ **CUDA** မပါဝင်ပါက အပေါ်က tool အားလုံး အလုပ်မလုပ်ပါ။ ထို့ကြောင့် stack ကို အောက်မှ အပေါ်သို့ ဖတ်ခြင်းက အလွယ်ဆုံး ဖြစ်ပါသည်။
+
 ---
 
-## 2. Platform အဆင့် — CUDA
+## 3. Platform အဆင့် — CUDA
 
 **CUDA (Compute Unified Device Architecture)** — GPU ကို general-purpose parallel computing အတွက် အသုံးပြုနိုင်စေသော platform, API, compiler toolchain ဖြစ်ပါသည်။ C/C++/Python မှ တစ်ဆင့် GPU code ရေးသား လုပ်ဆောင်နိုင်ပါသည်။
 
 CUDA မပါဝင်ပါက ကျန် software အားလုံး အလုပ်မလုပ်နိုင်ပါ — ၎င်းသည် NVIDIA ၏ အဓိက ecosystem အားသာချက် ဖြစ်ပြီး ပြိုင်ဘက် GPU များတွင် ကိုက်ညီသော အစားထိုးမှု မရှိပါ။
 
+⚠️ CUDA သည် library တစ်ခု မဟုတ်ပါ — platform/toolchain ဖြစ်ပါသည်။ ဤခွဲခြားချက်ကို စာမေးပွဲတွင် တိုက်ရိုက် မေးလေ့ရှိပါသည်။
+
 ---
 
-## 3. Acceleration Libraries အဆင့်
+## 4. Acceleration Libraries အဆင့် (နှိုင်းယှဉ် ဇယား)
 
 | Library | အလုပ် | တစ်ကြောင်းတည်း ရှင်းလင်းချက် |
 |---|---|---|
@@ -47,9 +62,11 @@ CUDA မပါဝင်ပါက ကျန် software အားလုံး အ
 
 ⚠️ **ရှုပ်လေ့ရှိပုံ** — cuDNN vs cuBLAS vs NCCL။ မှတ်ရနည်း — cuDNN = neural network ၏ အလုပ်၊ cuBLAS = သင်္ချာ matrix၊ NCCL = GPU ချင်း ဆက်သွယ်ခြင်း။
 
+**ဘယ်အခါ ဘာသုံးမလဲ** — framework တစ်ခုက အလိုအလျောက် အသုံးပြုနေသောကြောင့် လက်တွေ့တွင် တိုက်ရိုက် ရေးသားစရာ နည်းပါးပါသည် — သို့သော် multi-GPU training တွင် ဆက်သွယ်ရေး ပြဿနာ ဖြစ်ပါက NCCL ဘက်ကို စစ်ဆေးရပြီး inference နှေးပါက cuDNN/cuBLAS version ကို စစ်ဆေးရပါသည်။
+
 ---
 
-## 4. Training အဆင့် — Framework များ
+## 5. Training အဆင့် — Framework များ
 
 - **PyTorch / TensorFlow** — training framework များ — CUDA ပေါ်တွင် run
 - **NeMo** — NVIDIA ၏ generative AI / LLM framework — pretrain, fine-tune, alignment (RLHF), multimodal
@@ -59,7 +76,7 @@ CUDA မပါဝင်ပါက ကျန် software အားလုံး အ
 
 ---
 
-## 5. Inference အဆင့် — TensorRT vs Triton vs NIM ⭐
+## 6. Inference အဆင့် — TensorRT vs Triton vs NIM ⭐ (နှိုင်းယှဉ် ဇယား)
 
 ```mermaid
 flowchart TD
@@ -79,11 +96,11 @@ flowchart TD
 - "production တွင် model အမျိုးမျိုးကို batching ဖြင့် serve ချင်" → **Triton**
 - "enterprise support ဖြင့် ပြီးပြည့်စုံသော inference service ကို မြန်မြန် တင်သုံးချင်" → **NIM**
 
-📌 Triton အတွင်းတွင် TensorRT backend ထည့်သွင်းနိုင်ခြင်းကြောင့် ဤ ၃ ခု ဆက်စပ်နေပါသည်။
+📌 Triton အတွင်းတွင် TensorRT backend ထည့်သွင်းနိုင်ခြင်းကြောင့် ဤ ၃ ခု ဆက်စပ်နေပါသည် — Triton သည် engine ကို ဖန်တီးခြင်း မဟုတ်ဘဲ ထို engine များကို စီမံခန့်ခွဲ ဝန်ဆောင်မှု ပေးခြင်း ဖြစ်ပါသည်။
 
 ---
 
-## 6. Platform / Ecosystem (Objective 1.6)
+## 7. Platform / Ecosystem (Objective 1.6)
 
 | Solution | ရှင်းလင်းချက် |
 |---|---|
@@ -98,7 +115,7 @@ flowchart TD
 
 ---
 
-## 7. AI Development Life Cycle mapping (Objective 1.7)
+## 8. AI Development Life Cycle mapping (Objective 1.7)
 
 ```mermaid
 flowchart LR
@@ -108,11 +125,30 @@ flowchart LR
     D --> E[⑤ Monitoring<br/>DCGM]
 ```
 
-မေးခွန်းပုံစံ — "optimization အဆင့်တွင် မည်သည့် tool" → TensorRT။ "data preprocessing ကို GPU ပေါ် တင်ချင်" → RAPIDS။ "serving အဆင့်" → Triton/NIM။
+မေးခွန်းပုံစံ — "optimization အဆင့်တွင် မည်သည့် tool" → TensorRT။ "data preprocessing ကို GPU ပေါ် တင်ချင်" → RAPIDS။ "serving အဆင့်" → Triton/NIM။ "GPU ကျန်းမာရေး စောင့်ကြည့်" → DCGM။
 
 ---
 
-## 8. အဓိက မှားယွင်းနိုင်သော အချက်များ
+## 9. လက်တွေ့ ပြင်ဆင်မှု — Software environment စစ်ဆေးခြင်း (illustrative)
+
+ယေဘုယျ GPU environment တစ်ခုတွင် CUDA platform အဆင့် ရှိ/မရှိကို အရင် စစ်ဆေးခြင်းသည် အခြေခံ အဆင့် ဖြစ်ပါသည် — ဥပမာ သက်သက် ဖြစ်ပြီး command ရိုက်ရန် စာမေးပွဲ လိုအပ်ချက် မဟုတ်ပါ။
+
+```bash
+# Driver နှင့် CUDA runtime version ကြည့်ခြင်း (platform layer စစ်ဆေး)
+nvidia-smi
+
+# CUDA compiler toolchain ထည့်သွင်းထား/မထား စစ်ဆေးခြင်း
+nvcc --version
+```
+
+- `nvidia-smi` — GPU driver အခြေအနေနှင့် ပံ့ပိုးသော CUDA version ကို ပြသပါသည်
+- `nvcc --version` — CUDA compiler toolchain (nvcc) ၏ version ကို ပြသပါသည် — မထည့်သွင်းရသေးပါက command မတွေ့ကြောင်း ပြန်ပါမည်
+
+⚠️ version အမှတ်အသားများသည် တပ်ဆင်ထားသော driver/toolkit version ပေါ် မူတည်၍ ကွဲပြားပါမည်။ library တစ်ခုချင်းစီ၏ လက်ရှိ feature များကို NVIDIA documentation တွင် အမြဲ စစ်ဆေးပါ။
+
+---
+
+## 10. လုပ်ငန်း လည်ပတ်မှု သတိပေးချက်များ — အဓိက မှားယွင်းနိုင်သော အချက်များ (Exam traps)
 
 1. TensorRT vs Triton vs NIM — optimize engine vs serving server vs packaged microservice
 2. Base Command Manager vs Platform — on-prem OS vs cloud service
@@ -120,20 +156,30 @@ flowchart LR
 4. NeMo (GenAI/LLM) vs TAO (transfer learning, vision/speech)
 5. NCCL = communication၊ cuDNN = NN primitives၊ cuBLAS = matmul
 6. CUDA = platform layer — library တစ်ခု မဟုတ်
+7. Triton သည် model ကို optimize ပြုလုပ်ပေးသည့် tool မဟုတ် — optimize ကို TensorRT က လုပ်ဆောင်ပါသည်
+8. "NIM သည် Triton ကို အစားထိုးသည်" ဟု ယူဆခြင်း — NIM သည် pre-optimized packaged service ဖြစ်ပြီး Triton ကိုယ်တိုင် ပါဝင်နိုင်ပါသည်
 
 ---
 
-## 9. Mini-Quiz
+## 11. Self-Check (မိမိကိုယ်ကို စစ်ဆေးရန်)
 
 1. CUDA, cuDNN, cuBLAS, NCCL ကို တစ်ခုချင်း တစ်ကြောင်းတည်းဖြင့် ရှင်းပြပါ။
 2. "model ကို production တွင် serve ချင်ပြီး dynamic batching လိုချင်" — မည်သည့် tool ရွေးမလဲ။
 3. NIM သည် Triton နှင့် မည်သို့ ကွာခြားသလဲ။
+4. Base Command Manager နှင့် Base Command Platform ၏ ကွာခြားချက်က ဘာလဲ။
+5. LLM ကို fine-tune လုပ်ရန်နှင့် vision model ကို transfer learning လုပ်ရန် မည်သည့် tool များ သုံးမလဲ။
 
-**အဖြေများ** — 1) CUDA = GPU platform/API၊ cuDNN = DNN primitives၊ cuBLAS = matmul၊ NCCL = collective communication · 2) **Triton** · 3) NIM = pre-optimized packaged container microservice (enterprise-ready)
+**အဖြေများ**
+
+1. CUDA = GPU platform/API၊ cuDNN = DNN primitives၊ cuBLAS = matmul၊ NCCL = collective communication
+2. **Triton** (dynamic batching, multi-model serving)
+3. NIM = pre-optimized packaged container microservice (enterprise-ready)၊ Triton = ကိုယ်တိုင် model မျိုးစုံ စီမံ serve ရသော inference server
+4. Manager = on-prem cluster OS software၊ Platform = cloud-managed service
+5. LLM fine-tune → NeMo၊ vision/speech transfer learning → TAO Toolkit
 
 ---
 
-## 10. Official References
+## 12. Official References
 
 - CUDA Zone: https://developer.nvidia.com/cuda-zone
 - cuDNN: https://developer.nvidia.com/cudnn
@@ -144,3 +190,12 @@ flowchart LR
 - NIM: https://www.nvidia.com/en-us/ai/
 - NGC: https://catalog.ngc.nvidia.com
 - NeMo: https://developer.nvidia.com/nemo
+
+---
+
+## Technical review notes
+
+- ပြင်ဆင်မှု — Mini-Quiz ကို မေးခွန်း ၅ ခု + သီးခြား အဖြေများ ပုံစံသို့ တိုးချဲ့ပြောင်းလဲထားသည်။
+- ပြင်ဆင်မှု — လက်တွေ့ configuration အဖြစ် `nvidia-smi` နှင့် `nvcc --version` ကို illustrative အဖြစ် ထည့်သွင်းထားပြီး version ပေါ် မူတည် ကွဲပြားနိုင်ကြောင်း ဖော်ပြထားသည်။
+- Triton အတွင်း TensorRT backend ထည့်သွင်းနိုင်မှု အပါအဝင် tool feature များသည် version အလိုက် ပြောင်းလဲနိုင်ပြီး လိုအပ်ပါက NVIDIA documentation ဖြင့် ပြန်လည် စစ်ဆေးပါ (needs verification)။
+- မူလ အကြောင်းအရာ အားလုံး (stack diagram, image embed, mermaid workflow များ, reference link များ) ကို ထိန်းသိမ်းထားပြီး ဖြစ်သည် — နည်းပညာအရ ပြင်ဆင်ရန် လိုအပ်သော အချက် မတွေ့ရှိပါ။

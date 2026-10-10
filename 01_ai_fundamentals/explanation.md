@@ -4,7 +4,15 @@
 
 ---
 
-## 1. AI, ML, DL — သဘောတရား ၃ ခု ၏ ဆက်နွယ်မှု
+## 1. ပြဿနာ — Infrastructure ပညာရှင်တစ်ယောက် AI အခြေခံ ဘာကြောင့် လိုအပ်သလဲ
+
+AI infrastructure ကို စီမံခန့်ခွဲရာတွင် workload ၏ သဘောသဘာဝကို နားမလည်ပါက မှားယွင်းသော ဆုံးဖြတ်ချက်များ ချမှတ်မိပါသည် — ဥပမာ training အတွက် ရေရှည် compute စွမ်းအား လိုအပ်ပြီး inference အတွက် တုံ့ပြန်မှု အချိန် လိုအပ်သည်ကို မသိပါက တူညီသော hardware ကို နှစ်မျိုးလုံးအတွက် ရွေးချယ်မိတတ်ပါသည်။ ထို့ပြင် "AI သည် ML ၏ subset လား" ကဲ့သို့ အခြေခံ သဘောတရား ရှုပ်ထွေးမှုများသည် စာမေးပွဲတွင် တိုက်ရိုက် မေးခွန်းထုတ်လေ့ရှိပါသည်။
+
+ဤ module သည် နောက်ပိုင်း module အားလုံး (GPU လိုအပ်ခြင်း၊ software stack၊ training vs inference architecture) ၏ အခြေခံ ဖြစ်ပါသည်။
+
+---
+
+## 2. အဓိက သဘောတရား — AI, ML, DL ၏ ဆက်နွယ်မှု
 
 ```
 ┌───────────────────────────────────────────────┐
@@ -31,7 +39,7 @@
 
 ---
 
-## 2. Machine Learning အမျိုးအစား ၄ မျိုး
+## 3. Machine Learning အမျိုးအစား ၄ မျိုး (နှိုင်းယှဉ် ဇယား)
 
 | အမျိုးအစား | သင်ကြားပုံ | ဥပမာ |
 |---|---|---|
@@ -44,9 +52,11 @@ Supervised learning ကို ထပ်ခွဲပါက **classification** (�
 
 ခေတ်သစ် Generative AI ၏ သော့ချက်မှာ **self-supervised learning** ဖြစ်ပါသည် — ကမ္ဘာ့ စာသားအားလုံးကို label ပြုလုပ်စရာ မလိုဘဲ "နောက်တစ်လုံး ဘာလဲ" ခန့်မှန်းရုံဖြင့် သင်ကြားနိုင်သောကြောင့် ဖြစ်ပါသည်။ ထို့နောက် reinforcement learning (RLHF) ဖြင့် လူ့နှစ်သက်မှုနှင့် ကိုက်ညီအောင် ညှိပေးပါသည်။
 
+**ဘယ်အခါ ဘာသုံးမလဲ** — label ပါ data ရှိ → supervised၊ data ကို အုပ်စုခွဲ/ပုံမှန်မဟုတ်သည် ရှာ → unsupervised၊ ဆုံးဖြတ်ချက် အဆင့်ဆင့်နှင့် reward ရှိ → reinforcement၊ စာသား/media အမြောက်အများ → self-supervised။
+
 ---
 
-## 3. Neural Network နှင့် Deep Learning အလုပ်လုပ်ပုံ
+## 4. Neural Network နှင့် Deep Learning အလုပ်လုပ်ပုံ (အဓိက သဘောတရား)
 
 **Neuron တစ်ခု** — input များကို weight များဖြင့် မြှောက် ပေါင်းပြီး bias ထည့်ကာ activation function ဖြတ်သန်းစေခြင်း ဖြစ်ပါသည်။
 
@@ -85,7 +95,7 @@ flowchart LR
 
 ---
 
-## 4. Training vs Inference (အကျဉ်းချုပ်)
+## 5. Training vs Inference (နှိုင်းယှဉ် ဇယား)
 
 | အချက် | Training | Inference |
 |---|---|---|
@@ -100,7 +110,7 @@ architecture requirement ကွာခြားချက်ကို Module 04 �
 
 ---
 
-## 5. AI ဘာကြောင့် ယခုခေတ် ပေါက်ကွဲရသလဲ (Objective 1.4)
+## 6. AI ဘာကြောင့် ယခုခေတ် ပေါက်ကွဲရသလဲ (Objective 1.4)
 
 ဤမေးခွန်းသည် "အားလုံးပါဝင်" (all of the above) ပုံစံဖြင့် အမြဲ ထွက်လေ့ရှိပါသည် — factor ၄ ခု ပေါင်းစပ်မှု ဖြစ်ပါသည်။
 
@@ -121,7 +131,7 @@ flowchart TD
 
 ---
 
-## 6. Generative AI / LLM အကြောင်း အကျဉ်း
+## 7. Generative AI / LLM အကြောင်း အကျဉ်း
 
 - **LLM (Large Language Model)** — စာသား သန်းပေါင်းများစွာဖြင့် သင်ကြားထားသော Transformer model ကြီး
 - **Generative AI** — စာသား၊ ပုံ၊ code၊ အသံ အသစ်များ ဖန်တီးပေးနိုင်သော AI
@@ -131,7 +141,7 @@ flowchart TD
 
 ---
 
-## 7. Use Case နှင့် Industry များ (Objective 1.5)
+## 8. Use Case နှင့် Industry များ (Objective 1.5)
 
 | Industry | အဓိက use case |
 |---|---|
@@ -147,7 +157,7 @@ flowchart TD
 
 ---
 
-## 8. AI Development Life Cycle (Objective 1.7)
+## 9. AI Development Life Cycle (Objective 1.7)
 
 ![LLM optimize and deploy lifecycle](../images/llm-optimize-deploy.png)
 *ပုံ — LLM optimize/deploy lifecycle (ရင်းမြစ်: NVIDIA Developer Blog)*
@@ -170,30 +180,66 @@ flowchart LR
 
 ---
 
-## 9. အဓိက မှားယွင်းနိုင်သော အချက်များ
+## 10. လက်တွေ့ ပြင်ဆင်မှု — AI environment အခြေခံ စစ်ဆေးခြင်း (illustrative)
+
+ယေဘုယျ AI workstation တစ်ခုတွင် Python + PyTorch အသုံးပြု၍ CUDA ရရှိနိုင်မှုကို စစ်ဆေ်သည့် နမူနာ command များ ဖြစ်ပါသည် — ဤ command များသည် ဥပမာ သက်သက် ဖြစ်ပြီး စာမေးပွဲတွင် command ရိုက်ရန် မဟုတ်ပါ။
+
+```bash
+# GPU ရှိ/မရှိ နှင့် driver အခြေအနေ ကြည့်ခြင်း
+nvidia-smi
+
+# PyTorch မှ CUDA ကို အသုံးပြုနိုင်/မနိုင် စစ်ဆေးခြင်း
+python -c "import torch; print(torch.cuda.is_available())"
+```
+
+- `nvidia-smi` — NVIDIA driver နှင့် GPU အခြေအနေ (memory, utilization, temperature) ကို ပြသပါသည်
+- `python -c "import torch; print(torch.cuda.is_available())"` — PyTorch အနေဖြင့် GPU ကို တွေ့ရှိ/အသုံးပြုနိုင်ကြောင်း True/False ပြန်ပေးပါသည်
+
+⚠️ ထွက်လာသော အဖြေနှင့် အသေးစိတ်သည် GPU model, driver version, PyTorch version ပေါ် မူတည်၍ ကွဲပြားနိုင်ပါသည်။
+
+---
+
+## 11. လုပ်ငန်း လည်ပတ်မှု သတိပေးချက်များ — အဓိက မှားယွင်းနိုင်သော အချက်များ (Exam traps)
 
 1. DL ⊃ ML ⊃ AI ဟု ယူဆခြင်း — မှားပါသည် (AI ⊃ ML ⊃ DL)
 2. LLM ကို supervised learning ဟု ထင်ခြင်း — self-supervised ဖြစ်ပါသည်
 3. AI ပေါက်ကွဲရခြင်းကို အကြောင်းရင်း တစ်ခုတည်း ပြောခြင်း — ၄ ခု ပေါင်းစပ်မှု ဖြစ်ပါသည်
 4. Inference သည် training ၏ အပိုင်းငယ်သာ ဟု ထင်ခြင်း — requirement များ သီးခြား ဖြစ်ပါသည်
+5. Transformer ကို "ပိုကြီးသော RNN" ဟု ထင်ခြင်း — attention mechanism ဖြင့် အလုပ်လုပ်ပုံ မတူညီပါ
+6. Rule-based system ကို ML ဟု ခေါ်ခြင်း — ML သည် data မှ သင်ယူခြင်း ဖြစ်ရမည်
 
 ---
 
-## 10. Mini-Quiz
+## 12. Self-Check (မိမိကိုယ်ကို စစ်ဆေးရန်)
 
 1. AI, ML, DL subset အစဉ် မှန်ကန်သောအချက်ကို ရွေးပါ။
 2. LLM ၏ next-token prediction သည် ML အမျိုးအစား ၄ ခုအနက် မည်သည့်အမျိုးအစားနှင့် အနီးစပ်ဆုံးလဲ။
 3. AI ခုန်တက်စေသော factor ၄ ခုကို ဖော်ပြပါ။
 4. Transformer architecture ၏ အဓိက ဆန်းသစ်မှုက ဘာလဲ။
+5. Training နှင့် inference ကို requirement အလိုက် မည်သို့ ခွဲခြားမလဲ။
 
-**အဖြေများ** — 1) AI ⊃ ML ⊃ DL · 2) Self-supervised · 3) data ပေါများမှု၊ GPU compute၊ algorithm တိုးတက်မှု၊ ရင်းနှီးမြှုပ်နှံမှု/ecosystem · 4) attention mechanism (sequence တစ်ခုလုံး တစ်ပြိုင်နက် မြင်နိုင်ခြင်း)
+**အဖြေများ**
+
+1. AI ⊃ ML ⊃ DL
+2. Self-supervised (label ကို data အတွင်းမှ ကိုယ်တိုင် ဖန်တီးခြင်း)
+3. data ပေါများမှု၊ GPU compute၊ algorithm တိုးတက်မှု၊ ရင်းနှီးမြှုပ်နှံမှု/ecosystem
+4. attention mechanism (sequence တစ်ခုလုံး တစ်ပြိုင်နက် မြင်နိုင်ခြင်း)
+5. Training = ကြီးမားသော compute၊ ရက်/ပတ် ကြာချိန်၊ data အကြီးစား — Inference = နည်းပါးသော compute၊ ms-level latency၊ တည်ငြိမ်သော တုံ့ပြန်မှု
 
 ---
 
-## 11. Official References
+## 13. Official References
 
 - NVIDIA — What Is Deep Learning: https://www.nvidia.com/en-us/glossary/deep-learning/
 - NVIDIA — What Is Machine Learning: https://www.nvidia.com/en-us/glossary/machine-learning/
 - NVIDIA — What Is Generative AI: https://www.nvidia.com/en-us/glossary/generative-ai/
 - "Attention Is All You Need" (2017): https://arxiv.org/abs/1706.03762
 - NVIDIA AI Life Cycle overview: https://www.nvidia.com/en-us/solutions/ai-workflow-and-mlops/
+
+---
+
+## Technical review notes
+
+- ပြင်ဆင်မှု — Mini-Quiz ကို ဖြေမပါသော ပုံစံမှ မေးခွန်း + အဖြေ ခွဲထားသော self-check ပုံစံသို့ ပြောင်းလဲပြီး မေးခွန်း ၅ ခု တိုးချဲ့ထားသည်။
+- ပြင်ဆင်မှု — လက်တွေ့ configuration အဖြစ် `nvidia-smi` နှင့် PyTorch CUDA စစ်ဆေးမှု command များကို illustrative အဖြစ် ထည့်သွင်းထားသည် — ထွက်လဒ်သည် tool version ပေါ် မူတည်၍ ကွဲပြားနိုင်သည် (needs verification)။
+- မူလ အကြောင်းအရာ အားလုံး (diagram များ၊ image embed များ၊ reference link များ၊ နည်းပညာ အချက်အလက်များ) ကို ထိန်းသိမ်းထားပြီး ဖြစ်သည် — နည်းပညာအရ ပြင်ဆင်ရန် လိုအပ်သော အချက် မတွေ့ရှိပါ။

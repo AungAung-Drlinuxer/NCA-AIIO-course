@@ -4,9 +4,9 @@
 
 ---
 
-## 1. AI Network သည် ရိုးရာ network နှင့် မည်သို့ ကွာခြားသလဲ
+## 1. ပြဿနာ — AI Network သည် ရိုးရာ network နှင့် မည်သို့ ကွာခြားသလဲ
 
-ရိုးရာ data center တွင် traffic သည် client → server (north-south) ဖြစ်ပြီး AI cluster တွင်မူ **server ချင်းကြား (east-west)** traffic က 90% ကျော် ဖြစ်ပါသည်။
+ရိုးရာ data center တွင် traffic သည် client → server (north-south) ဖြစ်ပြီး AI cluster တွင်မူ **server ချင်းကြား (east-west)** traffic က 90% ကျော် ဖြစ်ပါသည် (ဤ ရာခိုင်နှုန်းသည် workload ပေါ် မူတည်သော ယေဘုယျ ခန့်မှန်းချက် ဖြစ်ပါသည်)။
 
 ```
 ရိုးရာ DC:   User → Server → User        (north-south များ)
@@ -19,7 +19,7 @@ Training job တစ်ခု run နေစဉ် GPU ရာချီက တစ�
 
 ---
 
-## 2. Network အမျိုးအစား ၃ မျိုး
+## 2. အဓိက သဘောတရား — Network အမျိုးအစား ၃ မျိုး
 
 | Network | အသုံးပြုရာ | Technology |
 |---|---|---|
@@ -45,7 +45,7 @@ flowchart TD
 
 ---
 
-## 3. TCP vs RDMA ⭐ (Objective 2.8)
+## 3. နှိုင်းယှဉ်ချက် — TCP vs RDMA ⭐ (Objective 2.8)
 
 ### TCP/IP (ရိုးရာ)
 
@@ -80,7 +80,7 @@ Network card က **CPU/kernel ကို ကျော်ပြီး** memory မ
 
 ---
 
-## 4. High-Speed Network Options (Objective 2.9)
+## 4. High-Speed Network Options နှင့် Topology (Objective 2.9)
 
 | Option | အမြန်နှုန်း | အသုံးပြုရာ |
 |---|---|---|
@@ -111,7 +111,7 @@ SHARP ပါ:   GPU1 ─┐
 
 ---
 
-## 5. Training vs Inference Networking
+## 5. Training vs Inference Networking နှိုင်းယှဉ်ချက်
 
 | အချက် | Training | Inference |
 |---|---|---|
@@ -119,22 +119,42 @@ SHARP ပါ:   GPU1 ─┐
 | လိုအပ်ချက် | InfiniBand နီးပါး မဖြစ်မနေ | Ethernet + load balancer (TP ဆို NVLink) |
 | Failure impact | job တစ်ခုလုံး ရပ်ဆိုင်း | replica တစ်ခု ကျဆင်းရုံ |
 
-## 6. Management Network
+### Management Network
 - **Out-of-band (BMC)** — power on/off, console, hardware health (job traffic နှင့် သီးခြား)
 - **In-band** — ပုံမှန် data traffic
 
 ---
 
-## 7. Scenario ဖြေဆိုပုံ
+## 6. လက်တွေ့ စီစဉ်ခြင်း — Network စစ်ဆေးရန် command များ
+
+ဤ command များသည် ဥပမာ ဖြစ်ပြီး tool package နှင့် hardware/driver version ပေါ် မူတည်၍ output ကွာခြားနိုင်ပါသည်။
+
+```bash
+# InfiniBand adapter port အခြေအနေ (state, rate) ကြည့်ရန်
+ibstat
+
+# GPU-NIC-CPU affinity နှင့် topology ကြည့်ရန် (GPUDirect RDMA path စဉ်းစားရန်)
+nvidia-smi topo -m
+
+# RDMA write bandwidth စမ်းသပ်ရန် (perftest package လိုအပ်)
+ib_write_bw -d mlx5_0
+
+# NCCL all-reduce စွမ်းဆောင်ရည် စမ်းသပ်ရန် (nccl-tests လိုအပ်)
+all_reduce_perf -b 8 -e 128M -f 2 -g 8
+```
+
+`ib_write_bw` သည် RDMA path အလုပ်လုပ်/မလုပ် နှင့် bandwidth ရ/မရ ကို စစ်ဆေးရာတွင် အသုံးဝင်ပြီး `all_reduce_perf` သည် training အတွက် အဓိက ဖြစ်သော all-reduce စွမ်းဆောင်ရည်ကို တိုင်းတာပါသည်။
+
+---
+
+## 7. စစ်ဆေးဖြေရှင်းပုံ — Scenario ဖြေဆိုပုံ (Operational cautions)
 
 **"Training job တွင် GPU utilization ကျနေပြီး အချိန် ကြာနေသည်"** →
 ① all-reduce ကြာချိန် တိုင်းတာ ② fabric bandwidth စစ် ③ oversubscription စစ် ④ link error စစ် — network ကို အရင် သံသယ ဝင်ပါ (training သည် network-bound ဖြစ်နိုင်)။
 
 **"Inference latency ရုတ်တရက် တက်လာသည်"** → network သည် ဒုတိယ အဆင့်သာ — ပထမ batch size, replica, GPU throttle ကို စစ်ဆေးပါ။
 
----
-
-## 8. အဓိက မှားယွင်းနိုင်သော အချက်များ
+### အဓိက မှားယွင်းနိုင်သော အချက်များ (Exam traps)
 
 1. NVLink = scale-up vs InfiniBand/Spectrum-X = scale-out
 2. RDMA = CPU/kernel bypass — မြန်ရခြင်း အကြောင်းရင်း
@@ -145,19 +165,28 @@ SHARP ပါ:   GPU1 ─┐
 
 ---
 
-## 9. Mini-Quiz
+## 8. Self-check (Mini-Quiz)
 
 1. Training cluster အတွက် fabric ၂ မျိုး ဖော်ပြပါ။
 2. RDMA သည် TCP ထက် ဘာကြောင့် မြန်ဆန်သလဲ။
 3. InfiniBand ၏ in-network computing feature ကို ခေါ်ဆိုပုံ ဖော်ပြပါ။
+4. GPUDirect RDMA သည် မည်သည့် အကြားအချက်ကို ကျော်ဖြတ်သလဲ။
 
-**အဖြေများ** — 1) InfiniBand၊ Spectrum-X · 2) kernel/CPU ကို ကျော်ဖြတ် memory-to-memory တိုက်ရိုက် · 3) **SHARP**
+**အဖြေများ** — 1) InfiniBand၊ Spectrum-X · 2) kernel/CPU ကို ကျော်ဖြတ် memory-to-memory တိုက်ရိုက် · 3) **SHARP** · 4) **CPU/kernel** (NIC မှ GPU memory သို့ တိုက်ရိုက်)
 
 ---
 
-## 10. Official References
+## 9. Official References
 
 - InfiniBand vs Ethernet for AI: https://network.nvidia.com/pdf/whitepaper/IB_Internet_WP.pdf
 - GPUDirect: https://developer.nvidia.com/gpudirect
 - NVIDIA Spectrum-X: https://www.nvidia.com/en-us/networking/spectrum-x/
 - NVIDIA Networking: https://network.nvidia.com
+
+---
+
+## Technical review notes
+
+- "east-west traffic 90%+" သည် workload ပေါ် မူတည်သော ယေဘုယျ ခန့်မှန်းချက် ဖြစ်ကြောင်း မှတ်စု ထည့်သွင်းထားပါသည် (needs verification per workload)။
+- InfiniBand NDR = 400 Gb/s per port ကို ထိန်းသိမ်းထားပြီး XDR = 800 Gb/s သည် generation/availability ပေါ် မူတည်ပါသည် (needs verification)။ Spectrum-X 400-800GbE သည် generation အလိုက် ကွာခြားနိုင်ပါသည် (needs verification)။
+- `ib_write_bw`/`all_reduce_perf` ဥပမာ parameter များသည် သရုပ်ပြ အတွက်သာ ဖြစ်ပြီး perftest/nccl-tests package သီးခြား လိုအပ်ပါသည်။ command syntax သည် version ပေါ် မူတည်နိုင်ပါသည်။

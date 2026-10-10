@@ -1,10 +1,18 @@
 # Module 09 — Cluster Components & On-prem vs Cloud (ပြည့်စုံသော ရှင်းလင်းချက်)
 
-> ဤ module ၏ ရည်ရွယ်ချက် — AI cluster တစ်ခုတွင် ဘာတွေ ပါဝင်သလဲ၊ on-prem နှင့် cloud မည်သို့ ရွေးချယ်မလဲ ဆိုသည်ကို TCO အမြင်ဖြင့် ဆုံးဖြတ်နိုင်စေရန် ဖြစ်ပါသည်။
+> ဤ chapter ၏ ရည်ရွယ်ချက် — AI cluster တစ်ခုတွင် ဘာတွေ ပါဝင်သလဲ၊ on-prem နှင့် cloud ကို မည်သို့ ရွေးချယ်မလဲ ဆိုသည်ကို TCO အမြင်ဖြင့် ဆုံးဖြတ်နိုင်စေရန် ဖြစ်ပါသည်။
 
 ---
 
-## 1. Accelerated Cluster ၏ Component များ (Objective 2.5)
+## 1. ပြဿနာ — "GPU ဝယ်ရုံနှင့် cluster ပြီးပြီလား" ဆိုသော မှားယွင်းသော အမြင်
+
+AI cluster တစ်ခုကို စီစဉ်ရာတွင် အဖြစ်များသော အမှားမှာ GPU server များ ဝယ်ယူ/ငှားရမ်းရုံဖြင့် ပြီးပြီဟု ယူဆခြင်း ဖြစ်ပါသည်။ လက်တွေ့တွင် GPU များ အလုပ်လုပ်စေရန် network, storage, management, facility အားလုံး လိုအပ်ပါသည်။ ဤ component များ တစ်ခုခု အားနည်းပါက GPU utilization ကျဆင်းပြီး ရင်းနှီးမြှုပ်နှံမှု တန်ဖိုး မရနိုင်ပါ။
+
+ဒုတိယ ပြဿနာမှာ **on-prem ဆောက်မလား cloud သုံးမလား** ဆိုသော ဆုံးဖြတ်ချက် ဖြစ်ပါသည် — ဤဆုံးဖြတ်ချက်ကို GPU ဈေးနှုန်းတစ်ခုတည်းဖြင့် မဟုတ်ဘဲ **TCO (Total Cost of Ownership)** နှင့် workload သဘောသဘာဝပေါ် မူတည်၍ ချရပါမည်။
+
+---
+
+## 2. အဓိက အယူအဆ — Accelerated Cluster ၏ Component များ (Objective 2.5)
 
 AI cluster တစ်ခုသည် GPU server များ စုစည်းရုံ မဟုတ်ဘဲ — စနစ်တစ်ခုလုံး ပါဝင်ပါသည်။
 
@@ -48,7 +56,7 @@ flowchart TD
 
 ---
 
-## 2. On-prem vs Cloud (Objective 2.4) ⭐
+## 3. နှိုင်းယှဉ်ခြင်း — On-prem vs Cloud (Objective 2.4) ⭐
 
 | အချက် | **On-prem** | **Cloud** |
 |---|---|---|
@@ -84,26 +92,26 @@ flowchart TD
 
 ---
 
-## 3. TCO (Total Cost of Ownership)
+## 4. လက်တွေ့ တွက်ချက်မှု — TCO ဖြင့် ဆုံးဖြတ်ခြင်း
 
 ```
 TCO = hardware + power + cooling + staff + maintenance + space + network
 ```
 
-GPU ဈေးနှုန်း တစ်ခုတည်း မဟုတ်ပါ။
+GPU ဈေးနှုန်း တစ်ခုတည်း မဟုတ်ပါ။ facility ကုန်ကျစရိတ်၊ လူအင်အား၊ ပြုပြင်ထိန်းသိမ်းမှု အားလုံး ပေါင်းတွက်ရပါမည်။
 
-### လက်တွေ့ တွက်ချက်မှု ဥပမာ
+### လက်တွေ့ တွက်ချက်မှု ဥပမာ (illustrative)
 
 **မေးခွန်း** — 8×H100 node ၄ လုံး (GPU 32 လုံး) ကို ၃ နှစ် အသုံးပြုမည်။ ဝယ်မလား cloud လား။
 
-- On-prem: hardware (node 4 + fabric + storage + rack) + facility (power/cooling ~150kW) + staff + maintenance — ၃ နှစ်ဖြင့် ခွဲဝေတွက်
-- Cloud: GPU-hour ဈေး × 24 × 365 × 3 + egress + storage
+- **On-prem**: hardware (node 4 + fabric + storage + rack) + facility (power/cooling ~150kW — illustrative) + staff + maintenance — ၃ နှစ်ဖြင့် ခွဲဝေတွက်
+- **Cloud**: GPU-hour ဈေး × 24 × 365 × 3 + egress + storage
 - ၃ နှစ် 24/7 ဆိုပါက အများအားဖြင့် on-prem က ပိုမို သက်သာ (TCO ပြန်ရ)
 - workload မသေချာ / experiment ဆိုပါက cloud က ပိုမို လုံခြုံ
 
----
+> **မှတ်ချက်** — ဤတွက်ချက်မှုသည် နည်းလမ်း ပြရုံ ဥပမာ ဖြစ်ပါသည်။ လက်တွေ့ ဂဏန်းများ (node ဈေး၊ facility ဝန်၊ GPU-hour နှုန်း) သည် ဒေသ၊ provider၊ ဈေးကွက် အခြေအနေပေါ် မူတည်ပါသည်။
 
-## 4. Hybrid Architecture
+### Hybrid Architecture
 
 ```
 On-prem: steady training base + sensitive data
@@ -113,16 +121,23 @@ Cloud: burst capacity + experiment + global serving
 
 **မှတ်ရနည်း** — "steady 24/7 = on-prem (TCO)၊ bursty/uncertain = cloud (flexibility)"။
 
----
-
-## 5. Reference Architecture
+### Reference Architecture
 
 - **BasePOD/SuperPOD** validated design အတိုင်း ဆောက်လုပ်ပါက ပြဿနာ နည်းပြီး ခန့်မှန်းချက် သေချာ
 - **Custom design** — ပိုမို လွတ်လပ်သော်လည်း integration risk ကိုယ်တိုင် ယူရ
 
 ---
 
-## 6. Scenario ဖြေဆိုပုံ
+## 5. လုပ်ငန်းခွင် သတိပြုရန် အချက်များနှင့် exam trap များ
+
+1. **On-prem = CapEx / Cloud = OpEx** — ငွေကြေး သဘောသဘာဝ ခွဲခြားမှုကို မမှားပါစေနှင့်
+2. **Cloud ၏ ပြဿနာ** — egress, data gravity, quota
+3. **Cluster = compute + network + storage + management + facility** — component တစ်ခုချင်းစီ ပါဝင်ကြောင်း မမေ့ပါနှင့်
+4. **Training cluster တွင် storage I/O က ကြိုးကြာစေနိုင်** — GPU utilization နိမ့်ခြင်း၏ အကြောင်းရင်း ဖြစ်နိုင်
+5. **steady = on-prem၊ bursty = cloud** — workload သဘောက ဆုံးဖြတ်သည်
+6. **TCO တွင် GPU ဈေး တစ်ခုတည်း မပါ** — power, cooling, staff, maintenance, space, network အားလုံး ပေါင်းရ
+
+### Scenario ဖြေဆိုပုံ
 
 **"Startup တစ်ခုက LLM experiment လုပ်ချင် — budget ကန့်သတ်"** → Cloud — CapEx မလို၊ GPU ချက်ချင်း ရ၊ ရပ်ချင်ပါက ရပ်နိုင်။
 
@@ -132,29 +147,34 @@ Cloud: burst capacity + experiment + global serving
 
 ---
 
-## 7. အဓိက မှားယွင်းနိုင်သော အချက်များ
-
-1. On-prem = CapEx / Cloud = OpEx
-2. Cloud ၏ ပြဿနာ — egress, data gravity, quota
-3. Cluster = compute + network + storage + management + facility
-4. Training cluster တွင် storage I/O က ကြိုးကြာစေနိုင်
-5. steady = on-prem၊ bursty = cloud
-
----
-
-## 8. Mini-Quiz
+## 6. ကိုယ်တိုင် စစ်ဆေးရန် မေးခွန်းများ (Self-check)
 
 1. Accelerated cluster ၏ component ၅ ခု စာရင်း ပြုစုပါ။
 2. 24/7 LLM training ၂ နှစ် အတွက် မည်သည့်အရာ ပိုသင့်တော်သလဲ။
 3. Cloud တွင် dataset 100TB ပြောင်းလိုပါက ပြဿနာ ၂ ခု ဖော်ပြပါ။
+4. On-prem နှင့် cloud ၏ ငွေကြေး သဘောသဘာဝ ကွာခြားချက်ကို ရှင်းပြပါ။
+5. Hybrid architecture ဆိုတာ ဘာလဲ။
 
-**အဖြေများ** — 1) compute, network (3 မျိုး), storage, management, facility · 2) **On-prem** · 3) egress cost + data gravity
+**အဖြေများ** —
+1. compute, network (backend/frontend/management), storage, management, facility
+2. **On-prem** — steady workload ဖြစ်သောကြောင့် TCO ပြန်ရနိုင်
+3. egress cost + data gravity
+4. On-prem = CapEx (ကြိုတင် ဝယ်ယူ)၊ Cloud = OpEx (သုံးသလောက် ပေး)
+5. steady base workload ကို on-prem တွင် ထားပြီး peak/overflow ကို cloud တွင် burst လုပ်သော ပေါင်းစပ် ပုံစံ
 
 ---
 
-## 9. Official References
+## 7. Official References
 
 - NVIDIA DGX SuperPOD: https://www.nvidia.com/en-us/data-center/dgx-superpod/
 - NVIDIA BasePOD: https://www.nvidia.com/en-us/data-center/data-center-reference-architecture/
 - NVIDIA DGX Cloud: https://www.nvidia.com/en-us/data-center/dgx-cloud/
 - Cloud vs On-prem TCO: https://www.nvidia.com/en-us/data-center/resources/
+
+---
+
+## Technical review notes
+
+- TCO ဥပမာတွင် facility ဝန် (power/cooling ~150kW) သည် မူရင်း ခန့်မှန်းချက် ဖြစ်ပြီး node configuration နှင့် facility design ပေါ် မူတည်သောကြောင့် တိကျသော ကိန်းဂဏန်း မဟုတ်ပါ — illustrative (case-dependent)။
+- "၃ နှစ် 24/7 ဆိုပါက on-prem ပိုသက်သာ" ဆိုသော သုံးသပ်ချက်သည် ယေဘုယျ လုပ်ငန်းခွင် အတွေ့အကြုံပေါ် မူတည်ပြီး အမြဲတမ်း မှန်ကန်သော စည်းမျဉ်း မဟုတ်ပါ (GPU-hour ဈေးနှုန်း၊ utilization ပေါ် မူတည်) — needs verification (case-dependent claim)။
+- WEKA, Lustre, GPUDirect Storage ကဲ့သို့သော အမည်များသည် နမူနာ အဖြစ် ဖော်ပြခြင်း ဖြစ်ပြီး အခြား parallel file system များလည်း အသုံးပြုနိုင်ပါသည်။
